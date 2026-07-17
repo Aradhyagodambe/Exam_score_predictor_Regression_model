@@ -9,79 +9,128 @@ import os
 # Page Configuration
 # -----------------------------
 st.set_page_config(
-    page_title="EduPredict | Academic Forecasting",
+    page_title="EDUPREDICT | COIN-OP FORECASTER",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 # -----------------------------
-# Sleek Minimalist CSS
+# Retro Arcade CSS
 # -----------------------------
 st.markdown("""
     <style>
-    /* Base typography and background */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    /* Import Retro Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+    
+    /* Base arcade cabinet background */
+    .stApp {
+        background-color: #080811;
+        background-image: 
+            linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+            linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+        background-size: 100% 4px, 6px 100%;
+    }
     
     html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif;
+        font-family: 'VT323', monospace;
+        color: #E0E0E0;
     }
     
-    .stApp {
-        background-color: #FAFAFA;
-    }
-    
-    /* Elegant Typography */
+    /* Neon Headers */
     .main-header {
-        font-size: 2.25rem;
-        font-weight: 700;
-        color: #111827;
-        letter-spacing: -0.02em;
-        margin-bottom: 0.25rem;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 2.2rem;
+        color: #00FFFF;
+        text-align: center;
+        text-shadow: 3px 3px 0px #FF00FF;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
     }
     .sub-header {
-        font-size: 1.05rem;
-        color: #6B7280;
-        font-weight: 400;
-        margin-bottom: 2.5rem;
+        font-family: 'VT323', monospace;
+        font-size: 1.5rem;
+        color: #FFFFFF;
+        text-align: center;
+        margin-bottom: 3rem;
+        text-shadow: 1px 1px 5px #FFFFFF;
     }
     
-    /* Modern Interactive Button */
-    .stButton>button {
-        background-color: #111827;
-        color: #FFFFFF;
-        border-radius: 6px;
-        border: 1px solid #111827;
-        font-weight: 500;
-        font-size: 1rem;
-        padding: 0.5rem 2rem;
-        transition: all 0.2s ease-in-out;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-        width: 100%;
+    /* Sidebar Styling */
+    [data-testid="stSidebar"] {
+        background-color: #05050A;
+        border-right: 2px solid #00FFFF;
+        box-shadow: inset -5px 0 15px rgba(0, 255, 255, 0.1);
     }
-    .stButton>button:hover {
-        background-color: #374151;
-        border-color: #374151;
-        color: #FFFFFF;
+    
+    /* Input Labels */
+    label, .stSlider > div > div > div > div {
+        font-family: 'Press Start 2P', cursive !important;
+        font-size: 0.75rem !important;
+        color: #00FF00 !important;
+        text-shadow: 1px 1px 2px rgba(0, 255, 0, 0.5);
     }
     
     /* Section Headers */
     .section-header {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #374151;
-        border-bottom: 1px solid #E5E7EB;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 1rem;
+        color: #FF00FF;
+        border-bottom: 2px solid #00FFFF;
         padding-bottom: 0.5rem;
         margin-bottom: 1.5rem;
+        text-shadow: 1px 1px 5px rgba(255, 0, 255, 0.5);
+        box-shadow: 0px 5px 5px -5px rgba(0, 255, 255, 0.5);
     }
     
-    /* Insight Cards */
+    /* The Big Arcade Button */
+    .stButton>button {
+        font-family: 'Press Start 2P', cursive;
+        background-color: #000000;
+        color: #00FF00;
+        border: 4px solid #00FF00;
+        border-radius: 10px;
+        font-weight: 400;
+        font-size: 1.2rem;
+        padding: 1rem 2rem;
+        transition: all 0.1s ease-in-out;
+        box-shadow: 0 0 15px #00FF00, inset 0 0 10px #00FF00;
+        width: 100%;
+        text-transform: uppercase;
+    }
+    .stButton>button:hover {
+        background-color: #00FF00;
+        color: #000000;
+        box-shadow: 0 0 25px #00FF00, inset 0 0 15px #000000;
+        transform: scale(1.02);
+    }
+    .stButton>button:active {
+        transform: scale(0.95);
+        box-shadow: 0 0 5px #00FF00;
+    }
+    
+    /* Insight Cards (Retro Terminal Style) */
     .insight-box {
-        background-color: #FFFFFF;
-        border: 1px solid #E5E7EB;
-        border-left: 4px solid #111827;
+        background-color: #000000;
+        border: 2px dashed #00FFFF;
         padding: 1rem 1.5rem;
-        border-radius: 4px;
         margin-bottom: 1rem;
+        font-family: 'VT323', monospace;
+        font-size: 1.3rem;
+        color: #00FF00;
+        box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.1);
+    }
+    .insight-warning {
+        border: 2px solid #FF00FF;
+        color: #FF00FF;
+        box-shadow: inset 0 0 10px rgba(255, 0, 255, 0.1);
+    }
+    .insight-title {
+        font-family: 'Press Start 2P', cursive;
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+        display: inline-block;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -90,18 +139,25 @@ st.markdown("""
 # Sidebar
 # -----------------------------
 with st.sidebar:
-    st.markdown("<h2 style='color: #111827; font-weight: 600;'>System Overview</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='font-family: \"Press Start 2P\", cursive; color: #00FFFF; font-size: 1.2rem; text-shadow: 0 0 5px #00FFFF;'>SYSTEM OS</h2>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("""
-    EduPredict utilizes machine learning regression models to project end-of-term academic performance based on historical baselines and current behavioral metrics.
-    
-    **Input Parameters:**
-    *   **Behavioral:** Daily study volume and rest intervals.
-    *   **Academic:** Current attendance rate and previous assessment benchmarks.
-    
-    ---
-    *Model Version: 1.2.0*  
-    *Execution: Local Environment*
-    """)
+    <div style='font-size: 1.3rem; color: #E0E0E0;'>
+    > INITIALIZING EDUPREDICT...<br>
+    > LOAD ML REGRESSION CORE...<br>
+    > READY.<br><br>
+    PROJECT END-OF-TERM SCORES USING BASELINE BEHAVIORAL AND ACADEMIC METRICS.<br><br>
+    INPUT PARAMETERS:<br>
+    [+] DAILY STUDY VOLUME<br>
+    [+] REST INTERVALS<br>
+    [+] ATTENDANCE RATE<br>
+    [+] HISTORICAL BENCHMARK<br>
+    <br>
+    --<br>
+    VER: 1.2.0-ARCADE<br>
+    CREDIT: 1 (FREE PLAY)<br>
+    </div>
+    """, unsafe_allow_html=True)
 
 # -----------------------------
 # Load Model (with Error Handling)
@@ -120,11 +176,11 @@ model = load_model()
 # -----------------------------
 # Main Header
 # -----------------------------
-st.markdown('<div class="main-header">Academic Forecasting Engine</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">Adjust behavioral and academic parameters below to generate performance projections and analytical insights.</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-header">EDUPREDICT FORECASTER</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">INSERT PARAMETERS TO INITIALIZE PROJECTION ALGORITHM.</div>', unsafe_allow_html=True)
 
 if model is None:
-    st.error("System Error: Predictive model (Exam_score_Predictor.pkl) not located in the execution directory. Initialization halted.")
+    st.markdown("<div style='font-family: \"Press Start 2P\", cursive; color: #FF0000; text-align: center;'>FATAL ERROR: Exam_score_Predictor.pkl MISSING.<br>INSERT COIN TO RESTART.</div>", unsafe_allow_html=True)
     st.stop()
 
 # -----------------------------
@@ -133,36 +189,32 @@ if model is None:
 col1, col2 = st.columns(2, gap="large")
 
 with col1:
-    st.markdown('<div class="section-header">Behavioral Metrics</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">PLAYER 1: HABITS</div>', unsafe_allow_html=True)
     
     hours_studied = st.slider(
-        "Study Volume (Hours/Day)",
-        min_value=0.0, max_value=24.0, value=5.0, step=0.5,
-        help="Average daily hours dedicated to active learning and review."
+        "STUDY VOLUME [HRS/DAY]",
+        min_value=0.0, max_value=24.0, value=5.0, step=0.5
     )
     
     sleep_hours = st.slider(
-        "Rest Intervals (Hours/Night)",
-        min_value=0.0, max_value=12.0, value=7.0, step=0.5,
-        help="Average nightly sleep duration, critical for memory consolidation."
+        "REST CYCLE [HRS/NIGHT]",
+        min_value=0.0, max_value=12.0, value=7.0, step=0.5
     )
 
 with col2:
-    st.markdown('<div class="section-header">Academic Baselines</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">PLAYER 1: STATS</div>', unsafe_allow_html=True)
     
     attendance = st.slider(
-        "Course Attendance (%)",
-        min_value=0, max_value=100, value=90, step=1,
-        help="Percentage of scheduled lectures/sessions attended to date."
+        "ATTENDANCE RATE [%]",
+        min_value=0, max_value=100, value=90, step=1
     )
     
     previous_scores = st.slider(
-        "Historical Benchmark (Score)",
-        min_value=0, max_value=100, value=70, step=1,
-        help="Performance metric from the most recent standardized assessment."
+        "PREVIOUS HI-SCORE",
+        min_value=0, max_value=100, value=70, step=1
     )
 
-st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("<br><br>", unsafe_allow_html=True)
 
 # -----------------------------
 # Prediction Trigger & Analytics
@@ -170,12 +222,12 @@ st.markdown("<br>", unsafe_allow_html=True)
 _, btn_col, _ = st.columns([1, 2, 1])
 
 with btn_col:
-    predict_clicked = st.button("Initialize Forecast")
+    predict_clicked = st.button("PRESS START TO PREDICT")
 
 if predict_clicked:
-    st.markdown("---")
-    with st.spinner("Compiling metrics and running projection algorithms..."):
-        time.sleep(0.8) # Simulating data processing
+    st.markdown("<br><hr style='border: 1px dashed #00FFFF;'>", unsafe_allow_html=True)
+    with st.spinner("PROCESSING DATA..."):
+        time.sleep(1.2) # Simulating loading screen
         
         # Make Prediction
         features = np.array([[hours_studied, sleep_hours, attendance, previous_scores]])
@@ -186,74 +238,85 @@ if predict_clicked:
     res_col1, res_col2 = st.columns([1.2, 1], gap="large")
     
     with res_col1:
-        st.markdown(f"<h3 style='color: #111827; font-weight: 700; margin-bottom: 0;'>Projected Assessment Score</h3>", unsafe_allow_html=True)
-        st.markdown(f"<h1 style='font-size: 4rem; color: #111827; margin-top: 0; line-height: 1;'>{prediction:.1f}<span style='font-size: 2rem; color: #6B7280;'>/100</span></h1>", unsafe_allow_html=True)
+        st.markdown(f"<div style='font-family: \"Press Start 2P\", cursive; color: #FFFFFF; font-size: 1rem; margin-bottom: 0.5rem;'>PROJECTED HI-SCORE:</div>", unsafe_allow_html=True)
         
-        st.markdown("<br><div class='section-header' style='margin-bottom: 1rem;'>Algorithmic Insights</div>", unsafe_allow_html=True)
+        # Color coding the score
+        score_color = "#00FF00" if prediction >= 75 else ("#FFFF00" if prediction >= 50 else "#FF0000")
         
-        # Dynamic Insight Generation
+        st.markdown(f"<div style='font-family: \"Press Start 2P\", cursive; font-size: 3.5rem; color: {score_color}; text-shadow: 4px 4px 0px rgba(0,0,0,0.5); margin-top: 0; line-height: 1;'>{prediction:.1f}<span style='font-size: 1.5rem; color: #FFFFFF;'>/100</span></div>", unsafe_allow_html=True)
+        
+        st.markdown("<br><div class='section-header' style='margin-bottom: 1rem;'>SYSTEM DIAGNOSTICS</div>", unsafe_allow_html=True)
+        
+        # Dynamic Insight Generation (Retro Themed)
         if sleep_hours < 6.5:
             st.markdown("""
-            <div class='insight-box'>
-                <strong>Cognitive Risk:</strong> Sub-optimal rest detected. Memory consolidation requires ~7+ hours. Increasing sleep duration is mathematically likely to yield higher retention rates than equivalent extra study hours.
+            <div class='insight-box insight-warning'>
+                <span class='insight-title'>[WARNING: REST DEPLETION]</span><br>
+                RAM clearing protocol (sleep) critically low. Memory consolidation algorithms require 7+ hours. Increase sleep to prevent data loss.
             </div>
             """, unsafe_allow_html=True)
             
         if attendance < 80:
             st.markdown("""
-            <div class='insight-box'>
-                <strong>Engagement Deficit:</strong> Attendance below the 80% threshold correlates strongly with instructional gaps. Prioritize lecture attendance to stabilize baseline understanding.
+            <div class='insight-box insight-warning'>
+                <span class='insight-title'>[WARNING: CONNECTION LOST]</span><br>
+                Server attendance below 80%. Packet loss detected in knowledge base. Reconnect to main servers (classes) to stabilize baseline.
             </div>
             """, unsafe_allow_html=True)
             
         if hours_studied > 9.0:
             st.markdown("""
-            <div class='insight-box'>
-                <strong>Diminishing Returns:</strong> Extreme study volume observed. Ensure qualitative focus (active recall, practice testing) rather than purely quantitative hour accumulation to avoid burnout.
+            <div class='insight-box insight-warning'>
+                <span class='insight-title'>[WARNING: CPU OVERHEATING]</span><br>
+                Extreme grind detected. Grind yields diminishing returns. Shift focus to qualitative processing (active recall) to prevent system burnout.
             </div>
             """, unsafe_allow_html=True)
             
         if previous_scores >= 85 and prediction < previous_scores:
             st.markdown("""
-            <div class='insight-box'>
-                <strong>Trajectory Warning:</strong> Your projected score is trending below your historical baseline. Adjust current behavioral metrics to maintain peak performance.
+            <div class='insight-box insight-warning'>
+                <span class='insight-title'>[ALERT: SCORE DEGRADATION]</span><br>
+                Trajectory trending below historical hi-score. Current input parameters are insufficient to maintain peak leaderboard status.
             </div>
             """, unsafe_allow_html=True)
             
         if not (sleep_hours < 6.5 or attendance < 80 or hours_studied > 9.0 or (previous_scores >= 85 and prediction < previous_scores)):
             st.markdown("""
-            <div class='insight-box'>
-                <strong>System Optimization:</strong> Current parameters indicate a balanced equilibrium between rest, attendance, and study volume. Maintain current operational cadence.
+            <div class='insight-box' style='border-color: #00FF00; color: #00FF00; box-shadow: inset 0 0 10px rgba(0,255,0,0.1);'>
+                <span class='insight-title' style='color: #00FF00;'>[SYSTEM NOMINAL]</span><br>
+                Parameters indicate a balanced equilibrium. Mechanics optimized for current level. Maintain operational cadence to secure victory.
             </div>
             """, unsafe_allow_html=True)
 
     with res_col2:
-        # Minimalist Plotly Gauge Chart
+        # Retro Plotly Gauge Chart
         fig = go.Figure(go.Indicator(
             mode = "gauge+number",
             value = prediction,
             domain = {'x': [0, 1], 'y': [0, 1]},
-            number = {'font': {'size': 1, 'color': "rgba(0,0,0,0)"}}, # Hide default number to use custom HTML above
+            number = {'font': {'size': 1, 'color': "rgba(0,0,0,0)"}}, # Hide default number
             gauge = {
-                'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "#9CA3AF", 'tickfont': {'color': "#6B7280", 'family': "Inter"}},
-                'bar': {'color': "#111827", 'thickness': 0.15},
-                'bgcolor': "#F3F4F6",
-                'borderwidth': 0,
+                'axis': {'range': [0, 100], 'tickwidth': 3, 'tickcolor': "#FFFFFF", 'tickfont': {'color': "#00FFFF", 'family': "Courier New", 'size': 14}},
+                'bar': {'color': "#00FFFF", 'thickness': 0.3},
+                'bgcolor': "#05050A",
+                'borderwidth': 2,
+                'bordercolor': "#FF00FF",
                 'steps': [
-                    {'range': [0, 60], 'color': "#E5E7EB"},
-                    {'range': [60, 85], 'color': "#D1D5DB"},
-                    {'range': [85, 100], 'color': "#9CA3AF"}
+                    {'range': [0, 50], 'color': "#330000"},
+                    {'range': [50, 75], 'color': "#333300"},
+                    {'range': [75, 100], 'color': "#003300"}
                 ],
             }
         ))
         
         fig.update_layout(
-            height=320, 
-            margin=dict(l=20, r=20, t=50, b=20),
+            height=300, 
+            margin=dict(l=30, r=30, t=40, b=20),
             paper_bgcolor="rgba(0,0,0,0)",
-            title={'text': "Performance Index", 'font': {'color': '#374151', 'size': 16, 'family': 'Inter'}}
+            plot_bgcolor="rgba(0,0,0,0)",
+            title={'text': "POWER METER", 'font': {'color': '#FF00FF', 'size': 20, 'family': '"Press Start 2P", cursive'}}
         )
         st.plotly_chart(fig, use_container_width=True)
 
 st.markdown("<br><br>", unsafe_allow_html=True)
-st.markdown("<div style='text-align: center; color: #9CA3AF; font-size: 0.85rem;'>EduPredict Analytical Infrastructure | Enterprise Data Solutions © 2026</div>", unsafe_allow_html=True)
+st.markdown("<div style='text-align: center; color: #444; font-family: \"Press Start 2P\", cursive; font-size: 0.6rem;'>EDUPREDICT SYSTEM | (C) 2026<br>INSERT COIN TO CONTINUE</div>", unsafe_allow_html=True)
