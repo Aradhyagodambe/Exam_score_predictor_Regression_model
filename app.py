@@ -66,13 +66,6 @@ with col1:
     )
 
 with col2:
-    sample_papers = st.number_input(
-        "Sample Papers Practiced",
-        min_value=0,
-        max_value=50,
-        value=10,
-    )
-
     attendance = st.number_input(
         "Attendance (%)",
         min_value=0,
