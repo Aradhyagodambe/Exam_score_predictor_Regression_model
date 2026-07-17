@@ -9,55 +9,79 @@ import os
 # Page Configuration
 # -----------------------------
 st.set_page_config(
-    page_title="EduPredict | Exam Score Forecaster",
-    page_icon="🎓",
+    page_title="EduPredict | Academic Forecasting",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 # -----------------------------
-# Custom CSS for Modern Aesthetics
+# Sleek Minimalist CSS
 # -----------------------------
 st.markdown("""
     <style>
-    /* Soften the background for a modern look */
+    /* Base typography and background */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif;
+    }
+    
     .stApp {
-        background-color: #F8FAFC;
+        background-color: #FAFAFA;
     }
     
     /* Elegant Typography */
     .main-header {
-        font-size: 2.8rem;
-        font-weight: 800;
-        color: #1E3A8A;
-        letter-spacing: -1px;
-        margin-bottom: 0px;
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: #111827;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.25rem;
     }
     .sub-header {
-        font-size: 1.2rem;
-        color: #64748B;
+        font-size: 1.05rem;
+        color: #6B7280;
         font-weight: 400;
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
     }
     
     /* Modern Interactive Button */
     .stButton>button {
-        background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
-        color: white;
-        border-radius: 12px;
-        border: none;
-        font-weight: 600;
-        font-size: 1.1rem;
-        padding: 0.6rem 2rem;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+        background-color: #111827;
+        color: #FFFFFF;
+        border-radius: 6px;
+        border: 1px solid #111827;
+        font-weight: 500;
+        font-size: 1rem;
+        padding: 0.5rem 2rem;
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        width: 100%;
     }
     .stButton>button:hover {
-        transform: translateY(-3px) scale(1.02);
-        box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+        background-color: #374151;
+        border-color: #374151;
+        color: #FFFFFF;
     }
-    .stButton>button:active {
-        transform: translateY(1px);
+    
+    /* Section Headers */
+    .section-header {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #374151;
+        border-bottom: 1px solid #E5E7EB;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Insight Cards */
+    .insight-box {
+        background-color: #FFFFFF;
+        border: 1px solid #E5E7EB;
+        border-left: 4px solid #111827;
+        padding: 1rem 1.5rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -66,18 +90,17 @@ st.markdown("""
 # Sidebar
 # -----------------------------
 with st.sidebar:
-    st.image("https://cdn-icons-png.flaticon.com/512/3135/3135810.png", width=100)
-    st.title("About EduPredict")
+    st.markdown("<h2 style='color: #111827; font-weight: 600;'>System Overview</h2>", unsafe_allow_html=True)
     st.markdown("""
-    This application uses Machine Learning to predict a student's final exam score based on study habits and historical data.
+    EduPredict utilizes machine learning regression models to project end-of-term academic performance based on historical baselines and current behavioral metrics.
     
-    **How to use:**
-    1. Adjust the sliders to match your daily habits.
-    2. Input your current academic standing.
-    3. Click **Predict My Score!**
+    **Input Parameters:**
+    *   **Behavioral:** Daily study volume and rest intervals.
+    *   **Academic:** Current attendance rate and previous assessment benchmarks.
     
     ---
-    *Built for educational purposes.*
+    *Model Version: 1.2.0*  
+    *Execution: Local Environment*
     """)
 
 # -----------------------------
@@ -97,71 +120,64 @@ model = load_model()
 # -----------------------------
 # Main Header
 # -----------------------------
-st.markdown('<p class="main-header">🎓 EduPredict Forecaster</p>', unsafe_allow_html=True)
-st.markdown('<p class="sub-header">Adjust the interactive sliders below to see how your habits impact your final score.</p>', unsafe_allow_html=True)
+st.markdown('<div class="main-header">Academic Forecasting Engine</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">Adjust behavioral and academic parameters below to generate performance projections and analytical insights.</div>', unsafe_allow_html=True)
 
 if model is None:
-    st.error("⚠️ Model file (`Exam_score_Predictor.pkl`) not found. Please ensure it is in the same directory as this app.")
+    st.error("System Error: Predictive model (Exam_score_Predictor.pkl) not located in the execution directory. Initialization halted.")
     st.stop()
 
 # -----------------------------
-# Input Section (Modern Interactive Cards)
+# Input Section
 # -----------------------------
 col1, col2 = st.columns(2, gap="large")
 
 with col1:
-    # Card 1: Daily Habits
-    with st.container(border=True):
-        st.markdown("### 🕒 Daily Habits")
-        st.caption("Drag the sliders to reflect your daily routine.")
-        
-        hours_studied = st.slider(
-            "📚 Hours Studied",
-            min_value=0.0, max_value=24.0, value=5.0, step=0.5,
-            help="Average hours dedicated to studying per day."
-        )
-        
-        sleep_hours = st.slider(
-            "😴 Sleep Hours",
-            min_value=0.0, max_value=12.0, value=7.0, step=0.5,
-            help="Average hours of sleep per night. (Rest is crucial!)"
-        )
+    st.markdown('<div class="section-header">Behavioral Metrics</div>', unsafe_allow_html=True)
+    
+    hours_studied = st.slider(
+        "Study Volume (Hours/Day)",
+        min_value=0.0, max_value=24.0, value=5.0, step=0.5,
+        help="Average daily hours dedicated to active learning and review."
+    )
+    
+    sleep_hours = st.slider(
+        "Rest Intervals (Hours/Night)",
+        min_value=0.0, max_value=12.0, value=7.0, step=0.5,
+        help="Average nightly sleep duration, critical for memory consolidation."
+    )
 
 with col2:
-    # Card 2: Academic History
-    with st.container(border=True):
-        st.markdown("### 📊 Academic Record")
-        st.caption("Drag the sliders to reflect your current standing.")
-        
-        attendance = st.slider(
-            "🏫 Attendance (%)",
-            min_value=0, max_value=100, value=90, step=1,
-            format="%d%%",
-            help="Percentage of classes attended during the semester."
-        )
-        
-        previous_scores = st.slider(
-            "📝 Previous Exam Score",
-            min_value=0, max_value=100, value=70, step=1,
-            help="Your score in the most recent major examination."
-        )
+    st.markdown('<div class="section-header">Academic Baselines</div>', unsafe_allow_html=True)
+    
+    attendance = st.slider(
+        "Course Attendance (%)",
+        min_value=0, max_value=100, value=90, step=1,
+        help="Percentage of scheduled lectures/sessions attended to date."
+    )
+    
+    previous_scores = st.slider(
+        "Historical Benchmark (Score)",
+        min_value=0, max_value=100, value=70, step=1,
+        help="Performance metric from the most recent standardized assessment."
+    )
 
 st.markdown("<br>", unsafe_allow_html=True)
 
 # -----------------------------
-# Prediction & Visualization
+# Prediction Trigger & Analytics
 # -----------------------------
-# Center the button for better aesthetics
 _, btn_col, _ = st.columns([1, 2, 1])
 
 with btn_col:
-    predict_clicked = st.button("✨ Predict My Score", use_container_width=True)
+    predict_clicked = st.button("Initialize Forecast")
 
 if predict_clicked:
-    st.divider()
-    with st.spinner("Running Machine Learning algorithms..."):
-        time.sleep(1) # Simulating processing time for UX
+    st.markdown("---")
+    with st.spinner("Compiling metrics and running projection algorithms..."):
+        time.sleep(0.8) # Simulating data processing
         
+        # Make Prediction
         features = np.array([[hours_studied, sleep_hours, attendance, previous_scores]])
         prediction = model.predict(features)[0]
         prediction = max(0.0, min(100.0, prediction)) 
@@ -170,49 +186,74 @@ if predict_clicked:
     res_col1, res_col2 = st.columns([1.2, 1], gap="large")
     
     with res_col1:
-        st.markdown("<br>", unsafe_allow_html=True) # Spacer
-        if prediction >= 90:
-            st.balloons()
-            st.success(f"## Predicted Score: **{prediction:.1f}**")
-            st.info("🌟 **Outstanding!** Keep up the fantastic work. You're on track for top-tier results.")
-        elif prediction >= 75:
-            st.success(f"## Predicted Score: **{prediction:.1f}**")
-            st.info("👍 **Great Job!** You have a solid grasp of the material. A little more push could get you to the top!")
-        elif prediction >= 50:
-            st.warning(f"## Predicted Score: **{prediction:.1f}**")
-            st.warning("📘 **Average Performance.** You're passing, but increasing your study hours or attendance could yield better results.")
-        else:
-            st.error(f"## Predicted Score: **{prediction:.1f}**")
-            st.error("📖 **Needs Improvement.** Consider reviewing your study habits, getting more sleep, and attending more classes.")
+        st.markdown(f"<h3 style='color: #111827; font-weight: 700; margin-bottom: 0;'>Projected Assessment Score</h3>", unsafe_allow_html=True)
+        st.markdown(f"<h1 style='font-size: 4rem; color: #111827; margin-top: 0; line-height: 1;'>{prediction:.1f}<span style='font-size: 2rem; color: #6B7280;'>/100</span></h1>", unsafe_allow_html=True)
+        
+        st.markdown("<br><div class='section-header' style='margin-bottom: 1rem;'>Algorithmic Insights</div>", unsafe_allow_html=True)
+        
+        # Dynamic Insight Generation
+        if sleep_hours < 6.5:
+            st.markdown("""
+            <div class='insight-box'>
+                <strong>Cognitive Risk:</strong> Sub-optimal rest detected. Memory consolidation requires ~7+ hours. Increasing sleep duration is mathematically likely to yield higher retention rates than equivalent extra study hours.
+            </div>
+            """, unsafe_allow_html=True)
+            
+        if attendance < 80:
+            st.markdown("""
+            <div class='insight-box'>
+                <strong>Engagement Deficit:</strong> Attendance below the 80% threshold correlates strongly with instructional gaps. Prioritize lecture attendance to stabilize baseline understanding.
+            </div>
+            """, unsafe_allow_html=True)
+            
+        if hours_studied > 9.0:
+            st.markdown("""
+            <div class='insight-box'>
+                <strong>Diminishing Returns:</strong> Extreme study volume observed. Ensure qualitative focus (active recall, practice testing) rather than purely quantitative hour accumulation to avoid burnout.
+            </div>
+            """, unsafe_allow_html=True)
+            
+        if previous_scores >= 85 and prediction < previous_scores:
+            st.markdown("""
+            <div class='insight-box'>
+                <strong>Trajectory Warning:</strong> Your projected score is trending below your historical baseline. Adjust current behavioral metrics to maintain peak performance.
+            </div>
+            """, unsafe_allow_html=True)
+            
+        if not (sleep_hours < 6.5 or attendance < 80 or hours_studied > 9.0 or (previous_scores >= 85 and prediction < previous_scores)):
+            st.markdown("""
+            <div class='insight-box'>
+                <strong>System Optimization:</strong> Current parameters indicate a balanced equilibrium between rest, attendance, and study volume. Maintain current operational cadence.
+            </div>
+            """, unsafe_allow_html=True)
 
     with res_col2:
-        # Plotly Gauge Chart
+        # Minimalist Plotly Gauge Chart
         fig = go.Figure(go.Indicator(
             mode = "gauge+number",
             value = prediction,
             domain = {'x': [0, 1], 'y': [0, 1]},
-            number = {'suffix': "%", 'font': {'size': 42, 'color': "#1E3A8A", 'family': "Arial Black"}},
+            number = {'font': {'size': 1, 'color': "rgba(0,0,0,0)"}}, # Hide default number to use custom HTML above
             gauge = {
-                'axis': {'range': [0, 100], 'tickwidth': 2, 'tickcolor': "darkblue"},
-                'bar': {'color': "#2563EB", 'thickness': 0.25},
-                'bgcolor': "#F1F5F9",
+                'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "#9CA3AF", 'tickfont': {'color': "#6B7280", 'family': "Inter"}},
+                'bar': {'color': "#111827", 'thickness': 0.15},
+                'bgcolor': "#F3F4F6",
                 'borderwidth': 0,
                 'steps': [
-                    {'range': [0, 50], 'color': "#FECACA"},   # Soft Red
-                    {'range': [50, 75], 'color': "#FEF08A"},  # Soft Yellow
-                    {'range': [75, 90], 'color': "#BBF7D0"},  # Soft Light Green
-                    {'range': [90, 100], 'color': "#86EFAC"}  # Soft Dark Green
+                    {'range': [0, 60], 'color': "#E5E7EB"},
+                    {'range': [60, 85], 'color': "#D1D5DB"},
+                    {'range': [85, 100], 'color': "#9CA3AF"}
                 ],
             }
         ))
         
         fig.update_layout(
-            height=300, 
-            margin=dict(l=10, r=10, t=20, b=10),
+            height=320, 
+            margin=dict(l=20, r=20, t=50, b=20),
             paper_bgcolor="rgba(0,0,0,0)",
-            font={'color': "#1E3A8A", 'family': "sans-serif"}
+            title={'text': "Performance Index", 'font': {'color': '#374151', 'size': 16, 'family': 'Inter'}}
         )
         st.plotly_chart(fig, use_container_width=True)
 
-st.divider()
-st.caption("Built with ❤️ using Streamlit, Plotly & Scikit-Learn | © 2026")
+st.markdown("<br><br>", unsafe_allow_html=True)
+st.markdown("<div style='text-align: center; color: #9CA3AF; font-size: 0.85rem;'>EduPredict Analytical Infrastructure | Enterprise Data Solutions © 2026</div>", unsafe_allow_html=True)
