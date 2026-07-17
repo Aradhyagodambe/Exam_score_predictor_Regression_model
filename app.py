@@ -15,7 +15,7 @@ st.set_page_config(
 )
 
 # -----------------------------
-# Retro Arcade CSS (UPDATED WITH SIREN BUTTON)
+# Retro Arcade CSS (UPDATED WITH SPRITES & SIREN)
 # -----------------------------
 st.markdown("""
     <style>
@@ -84,7 +84,7 @@ st.markdown("""
         box-shadow: 0px 5px 5px -5px rgba(0, 255, 255, 0.5);
     }
     
-    /* --- NEW SIREN WARNING BUTTON --- */
+    /* --- SIREN WARNING BUTTON --- */
     @keyframes siren-flicker {
         0%, 60%, 100% {
             background-color: #110000;
@@ -118,12 +118,10 @@ st.markdown("""
         width: 100%;
         text-transform: uppercase;
         border: 4px solid #550000;
-        /* The animation creates the double-flash siren effect */
         animation: siren-flicker 1.5s infinite; 
         transition: transform 0.1s ease-in-out;
     }
     
-    /* Solid warning light on hover so it's easy to click */
     .stButton>button:hover {
         animation: none;
         background-color: #FF0000;
@@ -162,7 +160,73 @@ st.markdown("""
         margin-bottom: 0.5rem;
         display: inline-block;
     }
+    
+    /* --- NEW: ARCADE SPRITE CHASE ANIMATION --- */
+    .sprite-track {
+        position: fixed;
+        bottom: 80px; /* Floats above the footer */
+        left: 0;
+        width: 100%;
+        height: 60px;
+        pointer-events: none; /* Allows clicking on things behind it */
+        z-index: 9999;
+        overflow: hidden;
+    }
+    
+    .sprite-group {
+        position: absolute;
+        bottom: 0;
+        font-size: 2.5rem;
+        white-space: nowrap;
+        animation: chase-run 10s linear infinite;
+        filter: drop-shadow(0px 0px 5px rgba(255,0,255,0.8));
+    }
+    
+    /* Choppy animation to mimic retro game frames */
+    @keyframes retro-bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+    }
+    
+    .monster {
+        display: inline-block;
+        animation: retro-bounce 0.3s steps(2) infinite;
+    }
+    
+    .student {
+        display: inline-block;
+        animation: retro-bounce 0.3s steps(2) infinite;
+        animation-delay: 0.15s; /* Offsets the bounce from the monster */
+    }
+    
+    .points {
+        display: inline-block;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 1rem;
+        color: #FFFF00;
+        vertical-align: top;
+        margin-left: 20px;
+        margin-right: 40px;
+        animation: retro-bounce 0.6s steps(2) infinite;
+    }
+
+    /* Moves the entire group from left to right across the screen */
+    @keyframes chase-run {
+        0% { left: -20%; }
+        100% { left: 110%; }
+    }
+    
     </style>
+    
+    <!-- INJECTING THE MOVING SPRITES HTML -->
+    <div class="sprite-track">
+        <div class="sprite-group">
+            <span class="monster">👾</span>
+            <span class="points">100</span>
+            <span class="points">100</span>
+            <span class="student">🏃‍♂️💨</span>
+        </div>
+    </div>
 """, unsafe_allow_html=True)
 
 # -----------------------------
@@ -252,7 +316,6 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 _, btn_col, _ = st.columns([1, 2, 1])
 
 with btn_col:
-    # Changed text slightly to match the intense warning aesthetic
     predict_clicked = st.button("⚠️ SYSTEM OVERRIDE: PREDICT ⚠️")
 
 if predict_clicked:
