@@ -15,7 +15,7 @@ st.set_page_config(
 )
 
 # -----------------------------
-# Retro Arcade CSS
+# Retro Arcade CSS (UPDATED WITH SIREN BUTTON)
 # -----------------------------
 st.markdown("""
     <style>
@@ -84,30 +84,60 @@ st.markdown("""
         box-shadow: 0px 5px 5px -5px rgba(0, 255, 255, 0.5);
     }
     
-    /* The Big Arcade Button */
+    /* --- NEW SIREN WARNING BUTTON --- */
+    @keyframes siren-flicker {
+        0%, 60%, 100% {
+            background-color: #110000;
+            color: #550000;
+            border-color: #550000;
+            box-shadow: none;
+            text-shadow: none;
+        }
+        10%, 30% {
+            background-color: #FF0000;
+            color: #FFFFFF;
+            border-color: #FFFFFF;
+            box-shadow: 0 0 20px #FF0000, 0 0 40px #FF0000, inset 0 0 15px #FFFFFF;
+            text-shadow: 0 0 10px #FFFFFF, 0 0 20px #FF0000;
+        }
+        20%, 40% {
+            background-color: #550000;
+            color: #FF9999;
+            border-color: #FF0000;
+            box-shadow: 0 0 10px #FF0000;
+            text-shadow: none;
+        }
+    }
+
     .stButton>button {
         font-family: 'Press Start 2P', cursive;
-        background-color: #000000;
-        color: #00FF00;
-        border: 4px solid #00FF00;
         border-radius: 10px;
         font-weight: 400;
         font-size: 1.2rem;
         padding: 1rem 2rem;
-        transition: all 0.1s ease-in-out;
-        box-shadow: 0 0 15px #00FF00, inset 0 0 10px #00FF00;
         width: 100%;
         text-transform: uppercase;
+        border: 4px solid #550000;
+        /* The animation creates the double-flash siren effect */
+        animation: siren-flicker 1.5s infinite; 
+        transition: transform 0.1s ease-in-out;
     }
+    
+    /* Solid warning light on hover so it's easy to click */
     .stButton>button:hover {
-        background-color: #00FF00;
-        color: #000000;
-        box-shadow: 0 0 25px #00FF00, inset 0 0 15px #000000;
+        animation: none;
+        background-color: #FF0000;
+        color: #FFFFFF;
+        box-shadow: 0 0 40px #FF0000, inset 0 0 20px #FFFFFF;
+        border-color: #FFFFFF;
+        text-shadow: 0 0 10px #FFFFFF;
         transform: scale(1.02);
     }
+    
     .stButton>button:active {
         transform: scale(0.95);
-        box-shadow: 0 0 5px #00FF00;
+        background-color: #AA0000;
+        box-shadow: 0 0 10px #FF0000;
     }
     
     /* Insight Cards (Retro Terminal Style) */
@@ -222,7 +252,8 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 _, btn_col, _ = st.columns([1, 2, 1])
 
 with btn_col:
-    predict_clicked = st.button("PRESS START TO PREDICT")
+    # Changed text slightly to match the intense warning aesthetic
+    predict_clicked = st.button("⚠️ SYSTEM OVERRIDE: PREDICT ⚠️")
 
 if predict_clicked:
     st.markdown("<br><hr style='border: 1px dashed #00FFFF;'>", unsafe_allow_html=True)
