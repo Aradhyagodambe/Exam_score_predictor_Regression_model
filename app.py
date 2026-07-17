@@ -81,13 +81,12 @@ st.divider()
 if st.button("🎯 Predict Score", use_container_width=True):
 
     features = np.array([[
-        hours_studied,
-        previous_scores,
-        sleep_hours,
-        sample_papers,
-        attendance
-    ]])
-
+    hours_studied,
+    sleep_hours,
+    attendance,
+    previous_scores
+]])
+    
     prediction = model.predict(features)[0]
 
     st.success(f"### Predicted Exam Score: **{prediction:.2f}**")
